@@ -9,11 +9,11 @@
 ## 📍 CURRENT STATUS
 
 ```
-▶ ACTIVE DAY   : Day 3 — Database + Persistence Layer
-✅ LAST FILE   : backend/crud.py  (just created, commit pending)
-⏭ NEXT FILE   : backend/repositories.py
-🔁 LAST COMMIT : "feat: add Claude chat service + 5-dimension scoring engine [Day 2]"  (Commit 10)
-📦 TOTAL COMMITS: 10 pushed ✅
+▶ ACTIVE DAY   : Day 5 — HubSpot Integration (hubspot_service.py done!)
+✅ LAST FILES  : backend/migrations/001_init.sql + backend/services/hubspot_service.py
+⏭ NEXT FILE   : backend/services/alert_service.py
+🔁 LAST COMMIT : "feat: add CRUD layer + Repository pattern + brain.md update [Day 3]" (Commit 11)
+📦 TOTAL COMMITS: 11 pushed ✅ | Commit 12 pending
 ```
 
 ---
@@ -71,19 +71,19 @@
 
 | # | File | Status | Commit # |
 |---|------|--------|----------|
-| 1 | `backend/crud.py` | ✅ Created | 🟡 Pending commit |
-| 2 | `backend/repositories.py` | 🟡 Next | — |
-| 3 | `backend/migrations/001_init.sql` | ⬜ Upcoming | — |
+| 1 | `backend/crud.py` | ✅ Done | 11 |
+| 2 | `backend/repositories.py` | ✅ Done | 11 |
+| 3 | `backend/migrations/001_init.sql` | ✅ Done | 12 (pending) |
 
 **Day 3 Checklist:**
 - [x] Full CRUD layer (`crud.py`) — all 4 models covered
-- [ ] Repository pattern (`repositories.py`)
-- [ ] SQL migration file
-- [ ] DB indexes verified
-- [ ] Connection pooling tuned
-- [ ] Test with 50+ conversations
+- [x] Repository pattern (`repositories.py`) — 4 repositories with stats
+- [x] SQL migration file with indexes + 3 reporting views
+- [x] DB indexes verified (created in migration)
+- [x] Connection pooling tuned (in database.py)
+- [ ] Test with 50+ conversations (needs API keys)
 
-**Day 3 Status: 🟡 33% IN PROGRESS**
+**Day 3 Status: ✅ 100% COMPLETE**
 
 ---
 
@@ -109,13 +109,13 @@
 
 ### ⬜ DAY 5 — HubSpot Integration + CRM Sync
 
-| # | File | Status |
-|---|------|--------|
-| 1 | `backend/services/hubspot_service.py` | ⬜ |
-| 2 | `backend/services/alert_service.py` | ⬜ |
-| 3 | Update `backend/routers/leads.py` | ⬜ |
+| # | File | Status | Commit # |
+|---|------|--------|----------|
+| 1 | `backend/services/hubspot_service.py` | ✅ Done | 12 (pending) |
+| 2 | `backend/services/alert_service.py` | 🟡 Next | — |
+| 3 | Update `backend/routers/leads.py` | ⬜ Upcoming | — |
 
-**Day 5 Status: ⬜ NOT STARTED**
+**Day 5 Status: 🟡 33% IN PROGRESS**
 
 ---
 
@@ -213,7 +213,8 @@ Sales_bot/
 | 8 | `feat: add Dockerfile + Railway deployment config [Day 1]` | `Dockerfile`, `railway.toml` | ✅ |
 | 9 | `feat: add docker-compose + services package [Day 1]` | `docker-compose.yml`, `services/__init__.py` | ✅ |
 | 10 | `feat: add Claude chat service + 5-dimension scoring engine [Day 2]` | `chat_service.py`, `scoring_service.py` | ✅ |
-| 11 | *NEXT* `feat: add CRUD layer + Repository pattern [Day 3]` | `crud.py`, `repositories.py` | 🟡 Upcoming |
+| 11 | `feat: add CRUD layer + Repository pattern + brain.md update [Day 3]` | `crud.py`, `repositories.py`, `brain.md` | ✅ |
+| 12 | *NEXT* `feat: add SQL migration + HubSpot service + brain.md [Day 3+5]` | `001_init.sql`, `hubspot_service.py`, `brain.md` | 🟡 Pending |
 
 ---
 
@@ -222,13 +223,13 @@ Sales_bot/
 ```
 Day 1 ████████████████████  100% ✅ DONE
 Day 2 ████████████████████  100% ✅ DONE
-Day 3 ████░░░░░░░░░░░░░░░░   33% 🟡 IN PROGRESS
+Day 3 ████████████████████  100% ✅ DONE
 Day 4 ░░░░░░░░░░░░░░░░░░░░    0% ⬜
-Day 5 ░░░░░░░░░░░░░░░░░░░░    0% ⬜
+Day 5 ████░░░░░░░░░░░░░░░░   33% 🟡 IN PROGRESS
 Day 6 ░░░░░░░░░░░░░░░░░░░░    0% ⬜
 Day 7 ░░░░░░░░░░░░░░░░░░░░    0% ⬜
 
-TOTAL ████████░░░░░░░░░░░░   30% 🟡 BUILDING...
+TOTAL ██████████░░░░░░░░░░   47% 🟡 BUILDING...
 ```
 
 ---
