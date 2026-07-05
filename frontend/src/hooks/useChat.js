@@ -1,5 +1,5 @@
 // hooks/useChat.js — Manages full chat state
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef as _useRef } from 'react';
 import api from './useApi';
 
 export function useChat() {
@@ -10,7 +10,6 @@ export function useChat() {
   const [error, setError]                 = useState(null);
   const [turnCount, setTurnCount]         = useState(0);
   const [isStarted, setIsStarted]         = useState(false);
-  const abortRef = useRef(null);
 
   // Start a new conversation session
   const startConversation = useCallback(async () => {

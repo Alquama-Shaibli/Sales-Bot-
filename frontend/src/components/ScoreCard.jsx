@@ -34,7 +34,7 @@ export default function ScoreCard({ scoreData, conversationId, onQualify }) {
 
   if (!scoreData) return null;
 
-  const { overall_score, breakdown, reasoning, recommendation } = scoreData;
+  const { overall_score, breakdown, reasoning } = scoreData;
   const gradient = getScoreGradient(overall_score);
   const { label, badge, action } = getScoreLabel(overall_score);
   const isHot = overall_score >= 75;

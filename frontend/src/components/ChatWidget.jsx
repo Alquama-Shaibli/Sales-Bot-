@@ -20,7 +20,7 @@ const SCORE_ICON = (
 );
 
 export default function ChatWidget() {
-  const { messages, conversationId, isLoading, isStarting, isStarted, error, turnCount, startConversation, sendMessage, resetChat } = useChat();
+  const { messages, conversationId, isLoading, isStarting, isStarted, turnCount, startConversation, sendMessage, resetChat } = useChat();
   const { scoreData, isScoring, scoreConversation, resetScore } = useScore();
 
   const [inputText, setInputText]     = useState('');
