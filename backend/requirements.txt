@@ -11,3 +11,7 @@ aiohttp==3.9.1
 python-multipart==0.0.6
 httpx==0.25.2
 tenacity==8.2.3
+
+# Day 5 — Alert integrations (optional, degrade gracefully if not installed)
+twilio==8.10.0
+sendgrid==6.11.0

@@ -83,10 +83,13 @@ async def global_exception_handler(request: Request, exc: Exception):
 from routers.health import router as health_router
 from routers.chat import router as chat_router
 from routers.leads import router as leads_router
+from routers.analytics import router as analytics_router
 
 app.include_router(health_router, tags=["Health"])
 app.include_router(chat_router, prefix="/api", tags=["Chat"])
 app.include_router(leads_router, prefix="/api", tags=["Leads"])
+app.include_router(analytics_router, prefix="/api", tags=["Analytics"])
+
 
 
 # ── Root ──────────────────────────────────────────────────────────────────────
