@@ -9,11 +9,11 @@
 ## 📍 CURRENT STATUS
 
 ```
-▶ ACTIVE DAY   : Day 4 ✅ COMPLETE — React Frontend done!
-✅ LAST FILES  : frontend/src/App.jsx + index.js + index.html
-⏭ NEXT DAY    : Day 5 — alert_service.py + leads.py update
-🔁 LAST COMMIT : "feat: add App layout + index.js entry + SEO HTML + axios" (Commit 17)
-📦 TOTAL COMMITS: 17 pushed ✅
+▶ ACTIVE DAY   : Day 5 ✅ COMPLETE — Alerts + Analytics done!
+✅ LAST FILES  : backend/services/alert_service.py + backend/routers/analytics.py
+⏭ NEXT DAY    : Day 6 — Tests + Docs + Polish
+🔁 LAST COMMIT : "feat: add analytics router + wire alert/analytics into main.py" (Commit 21)
+📦 TOTAL COMMITS: 21 pushed ✅
 ```
 
 ---
@@ -112,11 +112,14 @@
 
 | # | File | Status | Commit # |
 |---|------|--------|----------|
-| 1 | `backend/services/hubspot_service.py` | ✅ Done | 12 (pending) |
-| 2 | `backend/services/alert_service.py` | 🟡 Next | — |
-| 3 | Update `backend/routers/leads.py` | ⬜ Upcoming | — |
+| 1 | `backend/services/hubspot_service.py` | ✅ Done | 12 |
+| 2 | `backend/services/alert_service.py` | ✅ Done | 20 |
+| 3 | `backend/routers/analytics.py` | ✅ Done | 21 |
+| 4 | Update `backend/main.py` (analytics router) | ✅ Done | 21 |
+| 5 | Update `backend/requirements.txt` (twilio/sendgrid) | ✅ Done | 21 |
+| 6 | Update `backend/.env.example` (Day 5 keys) | ✅ Done | 22 |
 
-**Day 5 Status: 🟡 33% IN PROGRESS**
+**Day 5 Status: ✅ 100% COMPLETE**
 
 ---
 
@@ -231,11 +234,11 @@ Day 1 ████████████████████  100% ✅ DON
 Day 2 ████████████████████  100% ✅ DONE
 Day 3 ████████████████████  100% ✅ DONE
 Day 4 ████████████████████  100% ✅ DONE
-Day 5 ████░░░░░░░░░░░░░░░░   33% 🟡 IN PROGRESS
+Day 5 ████████████████████  100% ✅ DONE
 Day 6 ░░░░░░░░░░░░░░░░░░░░    0% ⬜
 Day 7 ░░░░░░░░░░░░░░░░░░░░    0% ⬜
 
-TOTAL ██████████████░░░░░░   57% 🟡 BUILDING...
+TOTAL ███████████████░░░░░   71% 🟡 BUILDING...
 ```
 
 ---
