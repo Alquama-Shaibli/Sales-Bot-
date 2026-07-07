@@ -1,118 +1,107 @@
-# 🎯 EnterpriseLead AI — FlowZint Hackathon 2026
+# ⚡ EnterpriseLead AI — B2B Lead Qualification Agent
 
-> **"From Website Visitor to Qualified Lead in 3 Minutes"**
+> **FlowZint AI Hackathon 2026** — Gold Tier Submission  
+> *From Website Visitor to Qualified Lead in Under 3 Minutes*
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-green)](https://your-railway-url)
-[![GitHub](https://img.shields.io/badge/GitHub-Repo-blue)](https://github.com/Alquama-Shaibli/Sales-Bot-)
-[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
-
----
-
-## 🚀 What Is This?
-
-**EnterpriseLead AI** is an autonomous AI agent that qualifies B2B SaaS leads through intelligent multi-turn conversation, scores them in real-time across 5 dimensions, and automatically syncs qualified leads to HubSpot CRM — no manual data entry required.
-
-**Built for:** FlowZint AI Hackathon 2026 — Gold Tier submission
+[![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104-green?logo=fastapi)](https://fastapi.tiangolo.com)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://react.dev)
+[![Claude](https://img.shields.io/badge/Claude-3.5_Sonnet-orange?logo=anthropic)](https://anthropic.com)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue?logo=postgresql)](https://postgresql.org)
+[![License](https://img.shields.io/badge/License-MIT-purple)](LICENSE)
 
 ---
 
-## 🔥 The Problem
+## 🎯 What Is This?
 
-| Metric | Value |
-|--------|-------|
-| Average B2B SaaS Cost Per Lead | **$237** |
-| MQL → SQL conversion rate | **13%** (87% waste) |
-| Time sales reps spend qualifying | **20 min/lead** |
-| Time spent actually selling | **28% of their day** |
+**EnterpriseLead AI** is an autonomous B2B SaaS lead qualification agent. It replaces the typical "fill out a form" experience with a **natural, multi-turn AI conversation** powered by Claude 3.5 Sonnet — then scores the lead across **5 business dimensions** and routes hot leads directly to your CRM and sales team in real-time.
 
----
+### The Problem
+Sales teams waste 40% of their time chasing unqualified leads. Traditional lead forms produce low-quality data and cold emails feel impersonal.
 
-## ✅ The Solution
-
-EnterpriseLead AI automates the entire lead qualification process:
-
-1. **Prospect visits your site** → starts chatting with the bot
-2. **Bot has a natural conversation** → asks the right questions in the right order
-3. **Lead is scored 0–100** → across 5 weighted dimensions
-4. **Auto-synced to HubSpot** → with score, notes, and custom fields
-5. **Sales team gets an SMS alert** → for hot leads (score > 75)
+### The Solution
+A conversational AI agent that:
+- **Engages** prospects naturally (2-min conversation)
+- **Qualifies** them across 5 dimensions (ICP, Intent, Timeline, Authority, Engagement)
+- **Scores** 0-100 using Claude's deep reasoning
+- **Routes** hot leads (75+) instantly via HubSpot + SMS + email
 
 ---
 
-## 🏗️ Tech Stack
+## ✨ Key Features
 
-| Layer | Technology |
-|-------|-----------|
-| Backend | FastAPI (Python 3.11) |
-| LLM | Claude 3.5 Sonnet (Anthropic) |
-| Database | PostgreSQL (Railway) |
-| Frontend | React + TailwindCSS |
-| CRM | HubSpot API |
-| Alerts | Twilio SMS + SendGrid Email |
-| Deployment | Railway |
-
----
-
-## 📊 Lead Scoring System
-
-| Dimension | Weight | What It Measures |
-|-----------|--------|-----------------|
-| ICP Fit | **30%** | Company size, industry, growth stage |
-| Intent Signals | **25%** | Urgency, pain severity, language |
-| Timeline | **20%** | When they want to buy |
-| Authority | **15%** | Decision-making power |
-| Engagement | **10%** | Response quality |
-
-- **75–100** 🔴 Hot Lead → Routed to Sales immediately
-- **50–74** 🟡 Warm Lead → Nurture sequence
-- **0–49** 🔵 Cold Lead → Marketing only
+| Feature | Description |
+|---------|-------------|
+| 🤖 **Conversational AI** | Multi-turn Claude 3.5 Sonnet with expert sales system prompt |
+| 🎯 **5-Dimension Scoring** | ICP (30%) + Intent (25%) + Timeline (20%) + Authority (15%) + Engagement (10%) |
+| 📊 **Real-time Score Card** | Animated conic-gradient score circle with dimension breakdown |
+| 🔗 **HubSpot CRM Sync** | Create-or-update contacts with lead score and stage |
+| 🔔 **Instant Alerts** | Twilio SMS + SendGrid HTML email for hot leads (score ≥ 75) |
+| 📈 **Analytics Dashboard** | Pipeline snapshot, 7-day metrics, hot leads list |
+| 🗄️ **Full Persistence** | PostgreSQL with conversation history, lead records, score snapshots |
+| 🚀 **Production Ready** | Railway + Vercel deployment, Docker Compose for local dev |
 
 ---
 
-## ⚡ Quick Start (5 minutes)
+## 🏗️ Architecture
+
+```
+React Frontend (Vercel)
+    │
+    ▼ REST API
+FastAPI Backend (Railway)
+    ├── Claude 3.5 Sonnet    → Qualification + Scoring
+    ├── PostgreSQL           → Conversation + Lead persistence
+    ├── HubSpot CRM          → Contact sync
+    ├── Twilio               → SMS hot lead alerts
+    └── SendGrid             → Email hot lead alerts
+```
+
+**Full architecture:** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+
+---
+
+## 🚀 Quick Start
 
 ### Prerequisites
 - Python 3.11+
 - Node.js 18+
-- PostgreSQL (or use Supabase free tier)
+- PostgreSQL (or use Docker Compose)
+- Anthropic API key
 
-### Backend Setup
+### Local Setup
+
 ```bash
+# 1. Clone the repo
 git clone https://github.com/Alquama-Shaibli/Sales-Bot-.git
-cd Sales-Bot-/backend
+cd Sales-Bot-
 
-python -m venv venv
-venv\Scripts\activate        # Windows
-# source venv/bin/activate   # macOS/Linux
+# 2. Backend
+cd backend
+cp .env.example .env
+# Fill in ANTHROPIC_API_KEY + DATABASE_URL in .env
 
 pip install -r requirements.txt
+uvicorn main:app --reload
+# → Backend at http://localhost:8000
+# → Swagger UI at http://localhost:8000/docs
 
-cp .env.example .env
-# Edit .env with your API keys
-
-python main.py
-# → API running at http://localhost:8000
-```
-
-### Frontend Setup
-```bash
-cd ../frontend
+# 3. Frontend (new terminal)
+cd frontend
 npm install
-npm start
-# → App running at http://localhost:3000
+REACT_APP_API_URL=http://localhost:8000 npm start
+# → UI at http://localhost:3000
 ```
 
----
+### Docker Compose (Full Stack)
 
-## 🔑 Required API Keys
+```bash
+# From repo root (sets up backend + postgres)
+docker-compose up --build
 
-| Service | Where to Get | Required? |
-|---------|-------------|----------|
-| Anthropic Claude | [console.anthropic.com](https://console.anthropic.com) | ✅ Yes |
-| HubSpot | [hubspot.com](https://hubspot.com) → Private Apps | ✅ Yes |
-| PostgreSQL | [railway.app](https://railway.app) or [supabase.com](https://supabase.com) | ✅ Yes |
-| Twilio (SMS) | [twilio.com](https://twilio.com) | ⚪ Optional |
-| SendGrid (Email) | [sendgrid.com](https://sendgrid.com) | ⚪ Optional |
+# Backend: http://localhost:8000
+# Docs:    http://localhost:8000/docs
+```
 
 ---
 
@@ -120,21 +109,58 @@ npm start
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/health` | Health check |
-| POST | `/api/conversation/start` | Start a new chat session |
-| POST | `/api/message` | Send a message, get AI response |
-| POST | `/api/score` | Score the conversation (0–100) |
-| POST | `/api/lead/qualify` | Sync lead to HubSpot |
-| GET | `/api/conversations/{id}` | Get full conversation history |
+| `GET` | `/health` | Health check |
+| `POST` | `/api/conversation/start` | Start qualification session |
+| `POST` | `/api/message` | Send user message, get AI reply |
+| `POST` | `/api/score` | Score the full conversation |
+| `POST` | `/api/lead/qualify` | Qualify lead + CRM sync + alert |
+| `GET` | `/api/leads` | Get all leads (filterable) |
+| `GET` | `/api/analytics/pipeline` | Pipeline health metrics |
+| `GET` | `/api/analytics/hot-leads` | All hot leads (≥75) |
+| `GET` | `/api/analytics/daily-metrics` | 7-day breakdown |
+| `GET` | `/api/analytics/alerts-status` | Alert channel config status |
+
+Full API reference: [docs/API.md](docs/API.md)
 
 ---
 
-## 🎯 Business Impact
+## 🔑 Environment Variables
 
-- **40% cost reduction** per lead ($237 → ~$140)
-- **3x lead qualification capacity** with same team
-- **$400K+ annual revenue impact** for a $2M ARR company
-- **171% average ROI** (BCG research on agentic AI)
+Copy `backend/.env.example` → `backend/.env`:
+
+```env
+# Required
+ANTHROPIC_API_KEY=sk-ant-api03-xxxxx
+DATABASE_URL=postgresql://user:pass@host:5432/dbname
+
+# Optional — CRM
+HUBSPOT_API_KEY=pat-na1-xxxxx
+
+# Optional — Alerts
+TWILIO_ACCOUNT_SID=ACxxxxx
+TWILIO_AUTH_TOKEN=xxxxx
+TWILIO_PHONE_FROM=+1XXXXXXXXXX
+SALES_ALERT_PHONE=+91XXXXXXXXXX
+SENDGRID_API_KEY=SG.xxxxx
+SALES_EMAIL=sales@yourcompany.com
+LEAD_SCORE_THRESHOLD=75
+```
+
+---
+
+## 🧪 Tests
+
+```bash
+cd backend
+pip install pytest pytest-asyncio
+pytest tests/ -v
+
+# Output:
+# tests/test_chat.py::TestGetOpeningMessage::test_returns_string PASSED
+# tests/test_scoring.py::TestScoreConversation::test_hot_lead_score_range PASSED
+# tests/test_hubspot.py::TestSyncLead::test_sync_lead_returns_none_when_disabled PASSED
+# ... (20+ tests)
+```
 
 ---
 
@@ -143,50 +169,68 @@ npm start
 ```
 Sales-Bot-/
 ├── backend/
-│   ├── main.py              # FastAPI app entry point
-│   ├── config.py            # Environment settings
-│   ├── database.py          # PostgreSQL connection
-│   ├── models.py            # SQLAlchemy ORM models
-│   ├── schemas.py           # Pydantic request/response models
-│   ├── requirements.txt
-│   ├── Dockerfile
-│   └── routers/
-│       ├── chat.py          # Chat endpoints
-│       ├── leads.py         # Lead qualification endpoints
-│       └── health.py        # Health check
-│   └── services/
-│       ├── chat_service.py      # Claude API integration
-│       ├── scoring_service.py   # 5-dimension scoring engine
-│       └── hubspot_service.py   # CRM sync
+│   ├── main.py              ← FastAPI app factory
+│   ├── config.py            ← Pydantic settings
+│   ├── models.py            ← SQLAlchemy ORM
+│   ├── schemas.py           ← Pydantic schemas
+│   ├── routers/             ← API endpoints
+│   ├── services/            ← Business logic
+│   ├── migrations/          ← SQL migrations
+│   ├── tests/               ← Unit tests
+│   └── Dockerfile
 ├── frontend/
 │   └── src/
-│       ├── components/
-│       │   ├── ChatWidget.jsx
-│       │   ├── Message.jsx
-│       │   └── ScoreCard.jsx
-│       └── hooks/
-│           ├── useChat.js
-│           └── useScore.js
-└── docs/
-    ├── ARCHITECTURE.md
-    ├── API.md
-    └── DEPLOYMENT.md
+│       ├── components/      ← ChatWidget, ScoreCard, Message...
+│       └── hooks/           ← useChat, useScore, useApi
+├── docs/
+│   ├── ARCHITECTURE.md
+│   ├── API.md
+│   └── DEPLOYMENT.md
+├── docker-compose.yml
+├── vercel.json
+└── brain.md                 ← Live build tracker
 ```
 
 ---
 
-## 👤 Team
+## 🏆 FlowZint Hackathon — Submission Checklist
 
-- **Developer:** Alquama Shaibli
-- **Hackathon:** FlowZint AI Hackathon 2026
-- **Category:** Sales Bot
+- [x] Multi-turn conversational AI agent
+- [x] Claude 3.5 Sonnet integration
+- [x] 5-dimension weighted scoring engine
+- [x] HubSpot CRM integration
+- [x] Real-time SMS + email alerts for hot leads
+- [x] Beautiful React frontend with glassmorphism UI
+- [x] Full PostgreSQL persistence
+- [x] Pipeline analytics dashboard
+- [x] Unit tests (chat, scoring, HubSpot)
+- [x] Railway + Vercel deployment ready
+- [x] Docker Compose local setup
+- [x] Full documentation (Architecture + API + Deployment)
+- [x] 25+ git commits with clear history
 
 ---
 
-## 📄 License
+## 📊 Build Progress
 
-MIT License — feel free to use and adapt.
+| Day | Focus | Status |
+|-----|-------|--------|
+| Day 1 | Project setup + Backend scaffolding | ✅ Complete |
+| Day 2 | Claude integration + 5-dim scoring | ✅ Complete |
+| Day 3 | PostgreSQL + CRUD + Repository pattern | ✅ Complete |
+| Day 4 | React UI (ChatWidget + ScoreCard) | ✅ Complete |
+| Day 5 | HubSpot + Alerts + Analytics API | ✅ Complete |
+| Day 6 | Tests + Architecture + API docs | ✅ Complete |
+| Day 7 | Deployment config + Final polish | ✅ Complete |
 
 ---
 
-*Built with ❤️ for FlowZint AI Hackathon 2026*
+## 👨‍💻 Author
+
+**Alquama Shaibli** — FlowZint Hackathon 2026  
+📧 alquama.r56@gmail.com  
+🔗 [GitHub](https://github.com/Alquama-Shaibli/Sales-Bot-)
+
+---
+
+*Built with ❤️ using Claude AI, FastAPI, and React — FlowZint 2026*
