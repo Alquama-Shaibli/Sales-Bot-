@@ -108,10 +108,12 @@ class LeadQualifyRequest(BaseModel):
     last_name: Optional[str] = None
     company: Optional[str] = None
     job_title: Optional[str] = None
+    phone_number: Optional[str] = Field(None, description="Contact phone number (E.164 format preferred)")
     score: int = Field(..., ge=0, le=100)
     icp_fit: int = Field(..., ge=0, le=100)
     intent_level: Optional[IntentLevelEnum] = None
     timeline: Optional[str] = None
+    use_case: Optional[str] = Field(None, description="Primary use case or pain point described by the lead")
 
 
 class LeadQualifyResponse(BaseModel):
@@ -139,5 +141,6 @@ class ConversationHistoryResponse(BaseModel):
 class HealthResponse(BaseModel):
     status: str
     database: str
-    version: str = "1.0.0"
+    version: str = "1.1.0"
+    environment: Optional[str] = None
     timestamp: datetime = Field(default_factory=datetime.utcnow)
