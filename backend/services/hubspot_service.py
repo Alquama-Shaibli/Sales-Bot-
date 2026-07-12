@@ -4,7 +4,10 @@ Syncs qualified leads to HubSpot as contacts with custom fields.
 Handles create-or-update logic to avoid duplicates.
 """
 import logging
+import time
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 from typing import Optional, Dict, Any
 from tenacity import retry, stop_after_attempt, wait_exponential
 
@@ -13,6 +16,25 @@ from config import settings
 logger = logging.getLogger(__name__)
 
 HUBSPOT_BASE_URL = "https://api.hubapi.com"
+
+# Default request timeout (seconds)
+_TIMEOUT = 15
+
+
+def _build_session() -> requests.Session:
+    """Return a Session with automatic HTTP retries for transient errors."""
+    session = requests.Session()
+    retry_cfg = Retry(
+        total=3,
+        backoff_factor=0.5,
+        status_forcelist=[500, 502, 503, 504],
+        allowed_methods=["GET", "POST", "PATCH"],
+        raise_on_status=False,
+    )
+    adapter = HTTPAdapter(max_retries=retry_cfg)
+    session.mount("https://", adapter)
+    session.mount("http://", adapter)
+    return session
 
 
 class HubSpotService:
@@ -27,13 +49,15 @@ class HubSpotService:
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
         }
+        self._session = _build_session()
+        self._session.headers.update(self.headers)
         if not self.api_key:
             logger.warning("⚠️  HubSpot API key not set — sync will be skipped")
 
     def _is_configured(self) -> bool:
         return bool(self.api_key and self.api_key != "")
 
-    # ── Contact Lookup ────────────────────────────────────────────────────────
+    # ── Contact Lookup ─────────────────────────────────────────────────────────────────────
 
     def get_contact_by_email(self, email: str) -> Optional[str]:
         """
@@ -55,7 +79,7 @@ class HubSpotService:
                 "properties": ["email", "firstname", "lastname"],
                 "limit": 1,
             }
-            resp = requests.post(url, json=payload, headers=self.headers, timeout=10)
+            resp = self._session.post(url, json=payload, timeout=_TIMEOUT)
             resp.raise_for_status()
             results = resp.json().get("results", [])
             if results:
@@ -66,7 +90,7 @@ class HubSpotService:
             logger.error(f"HubSpot contact lookup failed: {e}")
         return None
 
-    # ── Contact Create ────────────────────────────────────────────────────────
+    # ── Contact Create ─────────────────────────────────────────────────────────────────────
 
     @retry(stop=stop_after_attempt(3), wait=wait_exponential(min=1, max=5))
     def create_contact(self, properties: Dict[str, Any]) -> Optional[str]:
@@ -76,7 +100,12 @@ class HubSpotService:
         try:
             url = f"{HUBSPOT_BASE_URL}/crm/v3/objects/contacts"
             payload = {"properties": properties}
-            resp = requests.post(url, json=payload, headers=self.headers, timeout=10)
+            resp = self._session.post(url, json=payload, timeout=_TIMEOUT)
+            if resp.status_code == 429:
+                retry_after = int(resp.headers.get("Retry-After", 10))
+                logger.warning(f"HubSpot rate limited — waiting {retry_after}s")
+                time.sleep(retry_after)
+                resp = self._session.post(url, json=payload, timeout=_TIMEOUT)
             resp.raise_for_status()
             contact_id = resp.json()["id"]
             logger.info(f"✅ HubSpot contact created: {contact_id}")
@@ -87,7 +116,7 @@ class HubSpotService:
                 return None
             raise
 
-    # ── Contact Update ────────────────────────────────────────────────────────
+    # ── Contact Update ─────────────────────────────────────────────────────────────────────
 
     @retry(stop=stop_after_attempt(3), wait=wait_exponential(min=1, max=5))
     def update_contact(self, contact_id: str, properties: Dict[str, Any]) -> bool:
@@ -97,7 +126,12 @@ class HubSpotService:
         try:
             url = f"{HUBSPOT_BASE_URL}/crm/v3/objects/contacts/{contact_id}"
             payload = {"properties": properties}
-            resp = requests.patch(url, json=payload, headers=self.headers, timeout=10)
+            resp = self._session.patch(url, json=payload, timeout=_TIMEOUT)
+            if resp.status_code == 429:
+                retry_after = int(resp.headers.get("Retry-After", 10))
+                logger.warning(f"HubSpot rate limited — waiting {retry_after}s")
+                time.sleep(retry_after)
+                resp = self._session.patch(url, json=payload, timeout=_TIMEOUT)
             resp.raise_for_status()
             logger.info(f"✅ HubSpot contact updated: {contact_id}")
             return True
@@ -112,8 +146,8 @@ class HubSpotService:
         Main sync function — creates or updates a HubSpot contact.
 
         Maps lead data to HubSpot standard + custom properties:
-        - Standard: email, firstname, lastname, company, jobtitle
-        - Custom: lead_score, icp_fit, intent_level, timeline, conversation_id
+        - Standard: email, firstname, lastname, company, jobtitle, phone
+        - Custom: lead_score, icp_fit, intent_level, timeline, use_case, conversation_id
         """
         if not self._is_configured():
             logger.info("HubSpot not configured — skipping sync")
@@ -127,17 +161,19 @@ class HubSpotService:
         # Build HubSpot properties
         properties = {
             # Standard fields
-            "email": lead.email or "",
+            "email":     lead.email or "",
             "firstname": lead.first_name or "",
-            "lastname": lead.last_name or "",
-            "company": lead.company or "",
-            "jobtitle": lead.job_title or "",
+            "lastname":  lead.last_name or "",
+            "company":   lead.company or "",
+            "jobtitle":  lead.job_title or "",
+            "phone":     getattr(lead, "phone_number", None) or "",
             # Custom qualification fields
-            "lead_score": str(lead.score),
-            "icp_fit": str(lead.icp_fit),
-            "intent_level": intent_str,
-            "timeline": lead.timeline or "",
-            "conversation_id": str(lead.conversation_id),
+            "lead_score":       str(lead.score),
+            "icp_fit":          str(lead.icp_fit),
+            "intent_level":     intent_str,
+            "timeline":         lead.timeline or "",
+            "use_case":         getattr(lead, "use_case", None) or "",
+            "conversation_id":  str(lead.conversation_id),
             "qualification_date": "",  # Will be set by HubSpot timestamp
         }
 
@@ -163,14 +199,14 @@ class HubSpotService:
             payload = {
                 "properties": {
                     "hs_note_body": note_body,
-                    "hs_timestamp": str(int(__import__("time").time() * 1000)),
+                    "hs_timestamp": str(int(time.time() * 1000)),
                 },
                 "associations": [{
                     "to": {"id": contact_id},
                     "types": [{"associationCategory": "HUBSPOT_DEFINED", "associationTypeId": 202}],
                 }],
             }
-            resp = requests.post(url, json=payload, headers=self.headers, timeout=10)
+            resp = self._session.post(url, json=payload, timeout=_TIMEOUT)
             resp.raise_for_status()
             logger.info(f"Note added to HubSpot contact {contact_id}")
             return True
