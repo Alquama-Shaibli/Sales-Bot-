@@ -24,11 +24,11 @@ from models import Conversation, Message, LeadScore, ConversationStatus, Message
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
-# Opening message shown to every new prospect
+# Opening message shown to every new prospect — elite consultative approach
 OPENING_MESSAGE = (
-    "👋 Hi there! I'm your sales assistant. I'm here to understand your needs "
-    "and see if we can help. To get started — what's the main challenge you're "
-    "trying to solve today?"
+    "👋 Hi there! I'm your EnterpriseLead AI specialist — I help B2B teams cut through "
+    "qualification noise and focus on the right opportunities. "
+    "To get started, what's the biggest friction point in your current sales or growth process right now?"
 )
 
 
@@ -285,6 +285,9 @@ async def score_conversation(request: ScoreRequest, db: Session = Depends(get_db
             ),
             recommendation=recommendation,
             reasoning=score_data.get("reasoning", ""),
+            key_strengths=score_data.get("key_strengths"),
+            key_gaps=score_data.get("key_gaps"),
+            next_step=score_data.get("next_step"),
             timestamp=datetime.utcnow(),
         )
 

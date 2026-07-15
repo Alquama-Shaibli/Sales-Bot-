@@ -79,6 +79,10 @@ class ScoreResponse(BaseModel):
     breakdown: ScoreBreakdown
     recommendation: RecommendationEnum
     reasoning: str
+    # Elite BANT scoring fields (optional for backward compatibility)
+    key_strengths: Optional[str] = Field(None, description="1-2 main positive factors making this lead compelling")
+    key_gaps: Optional[str] = Field(None, description="1-2 main limiting factors or risks")
+    next_step: Optional[str] = Field(None, description="Specific action for sales or marketing team")
     timestamp: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
@@ -94,7 +98,10 @@ class ScoreResponse(BaseModel):
                     "engagement": 75
                 },
                 "recommendation": "route_to_sales",
-                "reasoning": "Series B SaaS company, 50-person team, clear pain point, VP-level decision maker, Q3 timeline.",
+                "reasoning": "VP of Sales at 75-person B2B SaaS with acute pipeline visibility pain. Q3 budget allocated, decision-maker confirmed. Strong ICP alignment.",
+                "key_strengths": "Executive-level authority, allocated Q3 budget, quantifiable pain ($200K/yr in lost deals)",
+                "key_gaps": "CFO sign-off required for contracts >$50K; need to map procurement process",
+                "next_step": "Route to AE immediately — schedule technical discovery with VP of Sales and loop in CFO for commercial conversation",
                 "timestamp": "2026-07-04T17:00:00"
             }
         }

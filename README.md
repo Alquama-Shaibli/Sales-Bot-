@@ -32,14 +32,42 @@ A conversational AI agent that:
 
 | Feature | Description |
 |---------|-------------|
-| 🤖 **Conversational AI** | Multi-turn Claude 3.5 Sonnet with expert sales system prompt |
+| 🤖 **Conversational AI** | Multi-turn Claude 3.5 Sonnet with BANT-Extended consultative system prompt |
 | 🎯 **5-Dimension Scoring** | ICP (30%) + Intent (25%) + Timeline (20%) + Authority (15%) + Engagement (10%) |
-| 📊 **Real-time Score Card** | Animated conic-gradient score circle with dimension breakdown |
+| 📊 **Elite Score Card** | Animated score circle + strengths/gaps cards + strategic next-step recommendations |
 | 🔗 **HubSpot CRM Sync** | Create-or-update contacts with lead score and stage |
 | 🔔 **Instant Alerts** | Twilio SMS + SendGrid HTML email for hot leads (score ≥ 75) |
 | 📈 **Analytics Dashboard** | Pipeline snapshot, 7-day metrics, hot leads list |
 | 🗄️ **Full Persistence** | PostgreSQL with conversation history, lead records, score snapshots |
 | 🚀 **Production Ready** | Railway + Vercel deployment, Docker Compose for local dev |
+
+---
+
+## ⚡ Elite AI Features
+
+### Intelligent Chat System
+- **BANT-Extended Sales Methodology** — Budget, Authority, Need, Timeline + Competition + Use Case
+- **Stage-Aware Conversation Guidance** — 5 adaptive stages: Opening → Diagnosis → Discovery → Qualification → Closing
+- **Consultative (Not Pushy) Approach** — Understands before selling, qualifies OUT as well as IN
+- **Context-Aware Memory** — References details from earlier in the conversation
+- **Elite Language Patterns** — "That's common in [industry]...", "Help me understand...", "What I'm hearing is..."
+
+### Sophisticated Lead Scoring Engine
+- **Detailed BANT Rubric** — 5 score bands (0–39 / 40–59 / 60–74 / 75–89 / 90–100) per dimension
+- **Evidence-Based Analysis** — Claude cites specific quotes and signals from the conversation
+- **Business-Driven Reasoning** — Connects scores to revenue impact and organizational dynamics
+- **Three New Intelligence Fields:**
+  - `key_strengths` — Top 1–2 positive factors making this lead compelling
+  - `key_gaps` — Top 1–2 risks or limiting factors to be aware of
+  - `next_step` — Specific action for the sales or marketing team
+- **Routing Logic** — `≥75 → Sales` | `50–74 → Nurture` | `<50 → Marketing Only`
+
+### Enhanced Score Card UI
+- **Recommendation Pill** — Color-coded routing decision (🔴 Hot / 🟡 Warm / 🔵 Cold)
+- **Key Strengths Card** — Green callout showing what makes this lead compelling
+- **Areas to Develop Card** — Amber callout highlighting risks or gaps
+- **Recommended Next Step** — Actionable team guidance matched to recommendation color
+- **Hover Tooltips** — Dimension descriptions on hover for contextual understanding
 
 ---
 
@@ -208,6 +236,11 @@ Sales-Bot-/
 - [x] Docker Compose local setup
 - [x] Full documentation (Architecture + API + Deployment)
 - [x] 25+ git commits with clear history
+- [x] **Elite BANT-Extended consultative system prompt**
+- [x] **Stage-aware conversation detection (5 stages)**
+- [x] **BANT scoring rubric with 5-band granularity**
+- [x] **key_strengths / key_gaps / next_step scoring fields**
+- [x] **Enhanced ScoreCard with strengths/gaps/recommendation UI**
 
 ---
 
@@ -222,6 +255,7 @@ Sales-Bot-/
 | Day 5 | HubSpot + Alerts + Analytics API | ✅ Complete |
 | Day 6 | Tests + Architecture + API docs | ✅ Complete |
 | Day 7 | Deployment config + Final polish | ✅ Complete |
+| **Elite Upgrade** | **BANT prompts + Stage detection + BANT scoring + ScoreCard** | **⚡ Complete** |
 
 ---
 
